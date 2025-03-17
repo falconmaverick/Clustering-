@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 from sklearn.metrics import silhouette_samples
+from sklearn.datasets import make_blobs
 from matplotlib import cm
 
 class ScratchKMeans():
@@ -121,3 +122,20 @@ class ScratchKMeans():
         print("Cluster Summary Statistics:")
         print(summary)
         return summary
+
+# Generate a synthetic dataset
+X, _ = make_blobs(n_samples=300, centers=3, cluster_std=1.0, random_state=42)
+
+# Instantiate and fit the K-Means model
+kmeans = ScratchKMeans(n_clusters=3)
+kmeans.fit_best(X)
+
+# Print cluster centers
+print("Cluster Centers:\n", kmeans.centers)
+
+# Plot clustered data
+plt.scatter(X[:, 0], X[:, 1], c=kmeans.labels_, cmap='viridis', alpha=0.6)
+plt.scatter(kmeans.centers[:, 0], kmeans.centers[:, 1], c='red', marker='X', s=200, label="Centers")
+plt.title("K-Means Clustering")
+plt.legend()
+plt.show()
